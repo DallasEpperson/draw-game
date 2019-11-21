@@ -6,6 +6,29 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p>Welcome to the drawngle</p>
+    <canvas id="drawCanvas" width="400" height="400"></canvas>
+
+    <script>
+      var canvas = document.getElementById('drawCanvas');
+      var context = canvas.getContext('2d');
+      var lastPos = {};
+
+      canvas.onmousemove = function (e) {
+        if (!e.which) return;
+        var rect = this.getBoundingClientRect(),
+          x = e.clientX - rect.left,
+          y = e.clientY - rect.top;
+        if (lastPos.x) {
+          context.beginPath();
+          context.lineCap = 'round';
+          context.moveTo(lastPos.x, lastPos.y);
+          context.lineTo(x, y);
+          context.stroke();
+        }
+        lastPos.x = x;
+        lastPos.y = y;
+      };
+    </script>
   </body>
 </html>
