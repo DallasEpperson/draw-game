@@ -15,7 +15,10 @@
       var lastPos = {};
 
       canvas.onmousemove = function (e) {
-        if (!e.which) return;
+        if (!e.which){
+          lastPos = {};
+          return;
+        }
         var rect = this.getBoundingClientRect(),
           x = e.clientX - rect.left,
           y = e.clientY - rect.top;
