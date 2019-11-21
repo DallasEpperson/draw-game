@@ -1,37 +1,48 @@
 var canvas = document.getElementById('drawCanvas');
 var context = canvas.getContext('2d');
-var lastPos = {}, color = '#880000', size = 1;
+var allPaths = [], currentPath = {
+    pos: [],
+    col:'#880000',
+    size:1
+};
 
 document.getElementById('setRed').onclick = function () {
-    color = '#880000';
+    currentPath.col = '#880000';
 };
 document.getElementById('setBlue').onclick = function () {
-    color = '#000088';
+    currentPath.col = '#000088';
 };
 document.getElementById('setSmall').onclick = function () {
-    size = 1;
+    currentPath.size = 1;
 };
 document.getElementById('setBig').onclick = function () {
-    size = 10;
+    currentPath.size = 10;
 };
 
 canvas.onmousemove = function (e) {
     if (!e.which) {
-        lastPos = {};
+        if(currentPath.pos.length > 0){
+            allPaths.push({
+                pos: currentPath.pos,
+                col: currentPath.col,
+                size: currentPath.size
+            });
+            currentPath.pos = [];
+        }
         return;
     }
     var rect = this.getBoundingClientRect(),
         x = e.clientX - rect.left,
         y = e.clientY - rect.top;
-    if (lastPos.x) {
+    if (currentPath.pos.length > 0) {
+        var lastPos = currentPath.pos[currentPath.pos.length - 1];
         context.beginPath();
-        context.strokeStyle = color;
-        context.lineWidth = size;
+        context.strokeStyle = currentPath.col;
+        context.lineWidth = currentPath.size;
         context.lineCap = 'round';
         context.moveTo(lastPos.x, lastPos.y);
         context.lineTo(x, y);
         context.stroke();
     }
-    lastPos.x = x;
-    lastPos.y = y;
+    currentPath.pos.push({x,y});
 };
