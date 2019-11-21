@@ -7,12 +7,21 @@
   <body>
     <h1><%= title %></h1>
     <p>Welcome to the drawngle</p>
+    <button id="setRed">Red</button><button id="setBlue">Blue</button>
+    <br/>
     <canvas id="drawCanvas" width="400" height="400"></canvas>
 
     <script>
       var canvas = document.getElementById('drawCanvas');
       var context = canvas.getContext('2d');
-      var lastPos = {};
+      var lastPos = {}, color = '#880000';
+    
+      document.getElementById('setRed').onclick = function () {
+        color = '#880000';
+      };
+      document.getElementById('setBlue').onclick = function () {
+        color = '#000088';
+      };
 
       canvas.onmousemove = function (e) {
         if (!e.which){
@@ -24,6 +33,7 @@
           y = e.clientY - rect.top;
         if (lastPos.x) {
           context.beginPath();
+          context.strokeStyle = color;
           context.lineCap = 'round';
           context.moveTo(lastPos.x, lastPos.y);
           context.lineTo(x, y);
