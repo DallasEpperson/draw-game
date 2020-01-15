@@ -45,6 +45,15 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-process.on('SIGINT', () => process.exit(1));
+var server = app.listen(3000);
 
-module.exports = app;
+process.on('SIGINT', shutdown);
+
+function shutdown() {
+  console.log('Attempting to shut down gracefully...');
+  server.close(() => {
+    console.log('Server has shut down.');
+  });
+}
+
+console.log(`Server started`);
