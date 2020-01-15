@@ -3,9 +3,19 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p>Welcome to the drawngle</p>
+    <button id="setRed">Red</button> <button id="setBlue">Blue</button>
+    <br/>
+    <canvas id="drawCanvas" width="400" height="400"></canvas>
+    <br/>
+    <button id="setSmall">lil pen</button> <button id="setBig">big pen</button>
+    <br/>
+    <button id="submit">Submit</button>
+    
+    <script src="/javascripts/draw-game.js"></script>
   </body>
 </html>
