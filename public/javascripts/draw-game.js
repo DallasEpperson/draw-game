@@ -6,6 +6,27 @@ var allPaths = [], currentPath = {
     size:1
 };
 
+var drawStrokes = function(strokes){
+    var replayFrame = 1;
+    for (var pathI = 0; pathI < strokes.length; pathI++) {
+        const path = strokes[pathI];
+        for (var pointI = 0; pointI < path.pos.length-1; pointI++) {
+            const point = path.pos[pointI];
+            const toPoint = path.pos[pointI+1];
+            setTimeout(function(){
+                context.beginPath()
+                context.strokeStyle = path.col;
+                context.lineWidth = path.size;
+                context.lineCap = 'round';
+                context.moveTo(point.x, point.y);
+                context.lineTo(toPoint.x, toPoint.y);
+                context.stroke();
+            }, 20*replayFrame);
+            replayFrame++;
+        }
+    }
+};
+
 document.getElementById('setRed').onclick = function () {
     currentPath.col = '#880000';
 };
@@ -27,6 +48,24 @@ document.getElementById('submit').onclick = function(){
         })
         .fail(function(){
             console.error('An error occurred submitting');
+        });
+};
+
+document.getElementById('load').onclick = function(){
+    var gameId = $('#gameId').val();
+    console.log('Attempting to load game ', gameId);
+    $.get('/replay', {gameId: gameId})
+        .done(function(response){
+            console.log('Server says', response);
+            if(!response.success){
+                console.error('Server responded with anger');
+                return;
+            }
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            drawStrokes(JSON.parse(response.strokes));
+        })
+        .fail(function(){
+            console.error('An error occurred getting saved drawing');
         });
 };
 
