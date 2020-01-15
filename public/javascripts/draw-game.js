@@ -19,6 +19,7 @@ document.getElementById('setBig').onclick = function () {
     currentPath.size = 10;
 };
 document.getElementById('submit').onclick = function(){
+    console.log('Attempting to submit:', allPaths);
     $.post('/save', {strokes: JSON.stringify(allPaths)})
         .done(function(response){
             console.log('post done');
