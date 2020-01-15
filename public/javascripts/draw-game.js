@@ -18,6 +18,16 @@ document.getElementById('setSmall').onclick = function () {
 document.getElementById('setBig').onclick = function () {
     currentPath.size = 10;
 };
+document.getElementById('submit').onclick = function(){
+    $.post('/save', {strokes: JSON.stringify(allPaths)})
+        .done(function(response){
+            console.log('post done');
+            console.log(response);
+        })
+        .fail(function(){
+            console.error('An error occurred submitting');
+        });
+};
 
 canvas.onmousemove = function (e) {
     if (!e.which) {
@@ -32,8 +42,8 @@ canvas.onmousemove = function (e) {
         return;
     }
     var rect = this.getBoundingClientRect(),
-        x = e.clientX - rect.left,
-        y = e.clientY - rect.top;
+        x = Math.floor(e.clientX - rect.left),
+        y = Math.floor(e.clientY - rect.top);
     if (currentPath.pos.length > 0) {
         var lastPos = currentPath.pos[currentPath.pos.length - 1];
         context.beginPath();
